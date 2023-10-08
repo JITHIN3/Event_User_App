@@ -28,87 +28,89 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        color: Colors.black,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Sign Up",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 35,
-                  fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            buttomItem(
-                context, "lib/assets/google.png", "Continue With Google", 25,
-                    () async {
-                  await authClass.googleSignIn(context);
-                }),
-            SizedBox(
-              height: 15,
-            ),
-            buttomItem(
-                context, "lib/assets/phone.png", "Continue WIth Phone", 30, () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (builder) => PhoneAuthPage(),
-                ),
-              );
-            }),
-            SizedBox(
-              height: 15,
-            ),
-            Text(
-              "Or",
-              style: TextStyle(color: Colors.white, fontSize: 16),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            textItem(context, "Email", _emailController, false),
-            SizedBox(
-              height: 15,
-            ),
-            textItem(context, "Password", _passwordController, true),
-            SizedBox(
-              height: 30,
-            ),
-            colorButton(context),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Already Have An Account? ",
-                  style: TextStyle(color: Colors.white, fontSize: 15),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (builder) => SignInPage()),
-                            (route) => false);
-                  },
-                  child: Text(
-                    "Login",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          color: Colors.black,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Sign Up",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              buttomItem(
+                  context, "lib/assets/google.png", "Continue With Google", 25,
+                      () async {
+                    await authClass.googleSignIn(context);
+                  }),
+              SizedBox(
+                height: 15,
+              ),
+              buttomItem(
+                  context, "lib/assets/phone.png", "Continue WIth Phone", 30, () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (builder) => PhoneAuthPage(),
                   ),
-                ),
-              ],
-            )
-          ],
+                );
+              }),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                "Or",
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              textItem(context, "Email", _emailController, false),
+              SizedBox(
+                height: 15,
+              ),
+              textItem(context, "Password", _passwordController, true),
+              SizedBox(
+                height: 30,
+              ),
+              colorButton(context),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Already Have An Account? ",
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (builder) => SignInPage()),
+                              (route) => false);
+                    },
+                    child: Text(
+                      "Login",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -238,4 +240,5 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
+
 }
