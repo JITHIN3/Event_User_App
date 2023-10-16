@@ -1,13 +1,20 @@
 import 'package:event_user_app/Pages/Home.dart';
-import 'package:event_user_app/Pages/SignIn.dart';
+
 import 'package:event_user_app/Pages/SignUp.dart';
 import 'package:event_user_app/Service/Auth_Service.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  SystemChrome.setPreferredOrientations([
+
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp,
+  ]);
   runApp(const MyApp());
 }
 
@@ -63,6 +70,8 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       home: currentPage,
+      // home: Test(),
+
     );
   }
 }

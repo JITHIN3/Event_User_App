@@ -1,8 +1,16 @@
-import 'package:carousel_slider/carousel_slider.dart';
+
+import 'package:event_user_app/Custom/HomeWidget/BottomNavBar.dart';
+import 'package:event_user_app/Custom/HomeWidget/EventCard.dart';
+import 'package:event_user_app/Custom/HomeWidget/Header.dart';
+import 'package:event_user_app/Custom/HomeWidget/PopularCard.dart';
 import 'package:event_user_app/Pages/SignUp.dart';
 import 'package:event_user_app/Service/Auth_Service.dart';
 
+import 'package:event_user_app/Utilities/deviceSize.dart';
+
 import 'package:flutter/material.dart';
+
+import 'package:flutter/services.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -21,116 +29,90 @@ class _HomeScreenState extends State<HomeScreen> {
     "PHARMACY"
   ];
 
-  final List images = [
-    "https://www.mbatuts.com/wp-content/uploads/2019/11/Event-Planning-Business-in-plan.jpg",
-    "https://im.hunt.in/local/Gallery/3102080/l/3102080_d2ca5.jpg",
-    "https://www.hyderabadevents.com/assets/uploads/e0733afe5127c9fb14e8e92a573e2a01.jpg",
-    "https://kevinmauermann.com/wp-content/uploads/kevinmauermann-com/sites/221/1-1080x675.jpg",
-    "https://www.filepicker.io/api/file/wQ03Z8fkRfmtBqq58HVf",
-    "https://content.jdmagicbox.com/comp/ernakulam/m4/0484px484.x484.140206113128.a9m4/catalogue/we-create-events-panampilly-nagar-ernakulam-event-management-companies-nsobpzm660.jpg?clr="
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: .5,
+        elevation:0,
         shadowColor: Colors.black,
         backgroundColor: Colors.white,
-        title: Text("Home Screen"),
+        title: Text(
+          "Big Day Need Big Planning",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              CarouselSlider(
-                carouselController: CarouselController(),
-                items: images
-                    .map(
-                      (e) => Stack(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            ListView(
+              physics: ScrollPhysics(),
+              shrinkWrap: true,
+              children: [
+
+                HomeHeader(),
+                SizedBox(height: 30,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Text(
+                    "Make Your Event",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(height: 10,),
+                Column(
+                  children: [
+                    Container(
+                      width: Helper.getScreenWidth(context),
+                      height: 170,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child: Image.network(
-                                  e,
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                  height: 200,
-                                )),
+
+                          EventCards(
+                              image: "lib/assets/weddinglogo.jpg",
+                              title: "Wedding"),
+                          EventCards(
+                            image: "lib/assets/birthday-party.jpg",
+                            title: "Birthday",
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              height: 200,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  gradient: LinearGradient(colors: [
-                                    Colors.blueAccent.withOpacity(0.3),
-                                    Colors.redAccent.withOpacity(0.3)
-                                  ])),
-                            ),
+                          EventCards(
+                            image: "lib/assets/partyevent.jpg",
+                            title: "Party",
+                          ),
+                          EventCards(
+                            image: "lib/assets/reception.jpg",
+                            title: "Reception",
+                          ),
+                          EventCards(
+                            image: "lib/assets/reception.jpg",
+                            title: "Other",
                           ),
                         ],
                       ),
-                    )
-                    .toList(),
-                options: CarouselOptions(height: 200, autoPlay: true),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Text(
-                  "Make Your Event",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
-              ),
-              ListView(physics: ScrollPhysics(),shrinkWrap: true,
-                children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Container(height: 100,width: 80,
-                          decoration: BoxDecoration(color: Colors.red,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Container(height: 100,width: 80,
-                          decoration: BoxDecoration(color: Colors.red,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                      ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Container(height: 100,width: 80,
-                          decoration: BoxDecoration(color: Colors.red,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-             
-                    ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Popular Events",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                ],
-              )
-            ],
-          ),
+                ),
+                SizedBox(height: 20,),
+               PopularCard(),
+                PopularCard(),
+                PopularCard(),
+              ],
+            ),
+
+          ],
         ),
       ),
       drawer: Nav(),
+      bottomNavigationBar: BottomNavBar(),
     );
   }
 
