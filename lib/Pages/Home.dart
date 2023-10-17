@@ -101,10 +101,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(height: 10,),
                PopularCard(),
                 PopularCard(),
                 PopularCard(),
+                PopularCard(),
+
               ],
             ),
 
