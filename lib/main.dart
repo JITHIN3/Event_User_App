@@ -1,3 +1,4 @@
+import 'package:event_user_app/AdminPanel/AdminHomeScreen.dart';
 import 'package:event_user_app/Pages/Home.dart';
 
 import 'package:event_user_app/Pages/SignUp.dart';
@@ -70,7 +71,7 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       home: currentPage,
-      // home: Test(),
+      // home: AdminHomeScreen()
 
     );
   }

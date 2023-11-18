@@ -1,4 +1,4 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_user_app/Custom/HomeWidget/BottomNavBar.dart';
 import 'package:event_user_app/Custom/HomeWidget/EventCard.dart';
 import 'package:event_user_app/Custom/HomeWidget/Header.dart';
@@ -21,19 +21,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   AuthClass authClass = AuthClass();
-  List category = [
-    "GROCERY",
-    "ELECTRONICS",
-    "COSMETICS",
-    "FASHIONS",
-    "PHARMACY"
-  ];
+  final _eventStream =
+      FirebaseFirestore.instance.collection('events').snapshots();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation:0,
+        elevation: 0,
         shadowColor: Colors.black,
         backgroundColor: Colors.white,
         title: Text(
@@ -43,75 +38,74 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ListView(
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              children: [
-
-                HomeHeader(),
-                SizedBox(height: 30,),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Text(
-                    "Make Your Event",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                SizedBox(height: 10,),
-                Column(
-                  children: [
-                    Container(
-                      width: Helper.getScreenWidth(context),
-                      height: 170,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
+        child: StreamBuilder(
+            stream: _eventStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text("Connection Error");
+              }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+              var docs = snapshot.data!.docs;
+              return Column(
+                children: [
+                  ListView(
+                    physics: ScrollPhysics(),
+                    shrinkWrap: true,
+                    children: [
+                      HomeHeader(),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Text(
+                          "Make Your Event",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Column(
                         children: [
-
-                          EventCards(
-                              image: "lib/assets/weddinglogo.jpg",
-                              title: "Wedding"),
-                          EventCards(
-                            image: "lib/assets/birthday-party.jpg",
-                            title: "Birthday",
-                          ),
-                          EventCards(
-                            image: "lib/assets/partyevent.jpg",
-                            title: "Party",
-                          ),
-                          EventCards(
-                            image: "lib/assets/reception.jpg",
-                            title: "Reception",
-                          ),
-                          EventCards(
-                            image: "lib/assets/reception.jpg",
-                            title: "Other",
+                          Container(
+                            width: Helper.getScreenWidth(context),
+                            height: 170,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: docs.length,
+                                itemBuilder: (context, index) {
+                                  return EventCards(
+                                      image: "lib/assets/weddinglogo.jpg",
+                                      title: '${docs[index]['eventname']} ');
+                                }),
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Popular Events",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Popular Events",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      PopularCard(),
+                      PopularCard(),
+                      PopularCard(),
+                      PopularCard(),
+                    ],
                   ),
-                ),
-                SizedBox(height: 10,),
-               PopularCard(),
-                PopularCard(),
-                PopularCard(),
-                PopularCard(),
-
-              ],
-            ),
-
-          ],
-        ),
+                ],
+              );
+            }),
       ),
       drawer: Nav(),
       bottomNavigationBar: BottomNavBar(),

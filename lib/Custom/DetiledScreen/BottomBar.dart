@@ -1,6 +1,7 @@
 import 'package:event_user_app/Custom/DetiledScreen/Datetextfield.dart';
 import 'package:event_user_app/Custom/DetiledScreen/bookingButton.dart';
 import 'package:event_user_app/Custom/DetiledScreen/bookingtextfield.dart';
+import 'package:event_user_app/Pages/Booking.dart';
 import 'package:event_user_app/Utilities/deviceSize.dart';
 import 'package:flutter/material.dart';
 
@@ -26,32 +27,33 @@ class _BottomButtonState extends State<BottomButton> {
               color: Colors.deepOrange),
           child: Center(
               child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 5),
-                child: Icon(
-                  Icons.chat,
-                  color: Colors.white,
-                  size: 20,
-                ),
-              ),
-              SizedBox(
-                width: 8,
-              ),
-              Text(
-                "Chat",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 17,
-                ),
-              ),
-            ],
-          )),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: Icon(
+                      Icons.chat,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    "Chat",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                    ),
+                  ),
+                ],
+              )),
         ),
         InkWell(
           onTap: () {
-            displayform(context);
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => BookingPage()));
           },
           child: Container(
             margin: EdgeInsets.only(left: 8),
@@ -62,18 +64,19 @@ class _BottomButtonState extends State<BottomButton> {
                 color: Colors.deepOrange),
             child: Center(
                 child: Text(
-              "Book Now",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 17,
-              ),
-            )),
+                  "Book Now",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                  ),
+                )),
           ),
         ),
       ]),
     );
   }
-   /////_______///////
+
+  /////_______///////
 
   displayform(BuildContext context) {
     return showDialog(
@@ -92,59 +95,63 @@ class _BottomButtonState extends State<BottomButton> {
               child: ListView(physics: ScrollPhysics(),
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 10,right: 10,top: 20,bottom: 20),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    padding: const EdgeInsets.only(
+                        left: 10, right: 10, top: 20, bottom: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text("User Details",
                             style: TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.w400)),
-                        GestureDetector(onTap: (){
+                        GestureDetector(onTap: () {
                           Navigator.pop(context);
                         },
                           child: Text("Cancel",
                               style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600,color: Colors.deepOrange)),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.deepOrange)),
                         ),
                       ],
                     ),
                   ),
                   Material(
-                      child: Column(
-                    children: [
-                      BookingField(
-                        label: "Name",
-                      ),
-                      BookingField(
-                        label: "Phone",
-                      ),
-                      BookingField(
-                        label: "Your Event",
-                      ),
-                      BookingField(
-                        label: "District",
-                      ),
-                      DateField(label: "Date"),
+                    child: Column(
+                      children: [
+                        BookingField(
+                          label: "Name",
+                        ),
+                        BookingField(
+                          label: "Phone",
+                        ),
+                        BookingField(
+                          label: "Your Event",
+                        ),
+                        BookingField(
+                          label: "District",
+                        ),
+                        DateField(label: "Date"),
 
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          BookingButton(
-                            title: "Pay Now",
-                            width: Helper.getScreenWidth(context) * .3,
-                            ontap: () {},
-                          color: Colors.blue),
-                          BookingButton(
-                            title: "Submit",
-                            width: Helper.getScreenWidth(context) * .3,
-                            ontap: () {},
-                          color: Colors.deepOrange),
-                        ],
-                      )
-                    ],
-                  )
-                  ,)
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            BookingButton(
+                                title: "Pay Now",
+                                width: Helper.getScreenWidth(context) * .3,
+                                ontap: () {},
+                                color: Colors.blue),
+                            BookingButton(
+                                title: "Submit",
+                                width: Helper.getScreenWidth(context) * .3,
+                                ontap: () {},
+                                color: Colors.deepOrange),
+                          ],
+                        )
+                      ],
+                    )
+                    ,)
                 ],
               ),
             ),
