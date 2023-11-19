@@ -23,6 +23,14 @@ class _HomeScreenState extends State<HomeScreen> {
   AuthClass authClass = AuthClass();
   final _eventStream =
       FirebaseFirestore.instance.collection('events').snapshots();
+  late Stream<QuerySnapshot> _stream;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _stream = FirebaseFirestore.instance.collection('events').snapshots();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 return Text("Connection Error");
               }
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return Center(child: CircularProgressIndicator(),);
               }
               var docs = snapshot.data!.docs;
               return Column(
@@ -80,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 itemCount: docs.length,
                                 itemBuilder: (context, index) {
                                   return EventCards(
-                                      image: "lib/assets/weddinglogo.jpg",
+                                      image: "${docs[index]['image']}",
                                       title: '${docs[index]['eventname']} ');
                                 }),
                           ),

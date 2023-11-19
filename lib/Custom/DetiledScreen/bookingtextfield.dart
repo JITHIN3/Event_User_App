@@ -5,11 +5,12 @@ class BookingField extends StatelessWidget {
    TextEditingController? controller;
   String? label;
   String? hint;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10),
-      child: TextFormField(controller: controller,
+      child: TextFormField(controller: controller,validator:(value){},
         style: TextStyle(color: Colors.black, fontSize: 17),
         decoration: InputDecoration(
 

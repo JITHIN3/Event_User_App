@@ -3,6 +3,7 @@ import 'package:event_user_app/Pages/Home.dart';
 
 import 'package:event_user_app/Pages/SignUp.dart';
 import 'package:event_user_app/Service/Auth_Service.dart';
+import 'package:event_user_app/test/Testpage.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +72,7 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       home: currentPage,
+      // home: Test(),
       // home: AdminHomeScreen()
 
     );

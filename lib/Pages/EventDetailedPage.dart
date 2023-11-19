@@ -21,6 +21,7 @@ class _EventDetailsState extends State<EventDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: StreamBuilder(
           stream: _eventdetailStream,
           builder: (context, snapshot) {
@@ -124,7 +125,10 @@ class _EventDetailsState extends State<EventDetails> {
                   "Our Wedding Planning Services ",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
                 ),
-              ),
+              )
+
+
+              ,
               SizedBox(
                 height: 10,
               ),

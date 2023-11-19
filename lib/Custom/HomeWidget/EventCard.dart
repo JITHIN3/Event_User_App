@@ -33,7 +33,7 @@ class _EventCardsState extends State<EventCards> {
 
                     borderRadius: BorderRadius.circular(10),
                     image: DecorationImage(
-                        image: AssetImage(widget.image),
+                        image: NetworkImage(widget.image),
                         fit: BoxFit.cover ),
                   ),
                 ),

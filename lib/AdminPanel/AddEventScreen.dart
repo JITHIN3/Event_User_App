@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:event_user_app/Pages/Booking.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddEventScreen extends StatefulWidget {
   const AddEventScreen({super.key});
@@ -10,8 +15,10 @@ class AddEventScreen extends StatefulWidget {
 
 TextEditingController eventController = TextEditingController();
 TextEditingController serviceController = TextEditingController();
+final CollectionReference _events =
+FirebaseFirestore.instance.collection('events');
 List<String> dataArray = [];
-
+String imageUrl = '';
 class _AddEventScreenState extends State<AddEventScreen> {
   @override
   Widget build(BuildContext context) {
@@ -45,20 +52,36 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         border: OutlineInputBorder(), labelText: "Services"),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      FirebaseFirestore.instance.collection("events").add({
-                        'eventname': eventController.text,
-                        'services': serviceController.text,
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Successfully Created"),
-                          backgroundColor: Colors.teal,
-                        ),
-                      );
-                      Navigator.pop(context);
-                      eventController.clear();
-                      serviceController.clear();
+
+                    onPressed: () async {
+
+
+                      if (imageUrl.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Upload Succesfull"),
+
+                          ),
+
+                        );return;
+
+                      }
+
+
+                      final String eventname = eventController.text;
+                      final String service = serviceController.text;
+                      if (service != null) {
+                        await _events.add({
+                          "eventname": eventname,
+                          "services": service,
+                          "image": imageUrl,
+
+                        });
+                        eventController.clear();
+                        serviceController.clear();
+
+                      }
+
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
@@ -78,7 +101,25 @@ class _AddEventScreenState extends State<AddEventScreen> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      final file = await ImagePicker()
+                          .pickImage(source: ImageSource.gallery);
+                      if (file == null) return;
+                      String fileName =
+                      DateTime.now().microsecondsSinceEpoch.toString();
+                      Reference referenceRoot =
+                      FirebaseStorage.instance.ref();
+                      Reference referenceDireImages =
+                      referenceRoot.child('images');
+                      Reference referenceImageToUpload =
+                      referenceDireImages.child(fileName);
+                      try {
+                        await referenceImageToUpload
+                            .putFile(File(file.path));
+                        imageUrl =
+                        await referenceImageToUpload.getDownloadURL();
+                      } catch (error) {}
+                    },
                     child: Text("Upload"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,

@@ -1,99 +1,150 @@
+import 'dart:io';
 
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:event_user_app/Utilities/deviceSize.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
-class Test extends StatelessWidget {
+class Test extends StatefulWidget {
   const Test({super.key});
+
+  @override
+  State<Test> createState() => _TestState();
+}
+
+class _TestState extends State<Test> {
+  String imageUrl = '';
+  final CollectionReference _items =
+      FirebaseFirestore.instance.collection('test');
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController numberController = TextEditingController();
+
+  Future<void> _create([DocumentSnapshot? documentSnapshot]) async {
+    await showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext) {
+          return Padding(
+            padding: EdgeInsets.all(20),
+            child: Container(
+              width: Helper.getScreenWidth(context),
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Create your item"),
+                    TextFormField(
+                      controller: nameController,
+                      decoration: InputDecoration(
+                          labelText: "Name", hintText: "jithus"),
+                    ),
+                    TextFormField(
+                      controller: numberController,
+                      decoration: InputDecoration(
+                          labelText: "Number", hintText: "jithus"),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    IconButton(
+                        onPressed: () async {
+                          final file = await ImagePicker()
+                              .pickImage(source: ImageSource.gallery);
+                          if (file == null) return;
+                          String fileName =
+                              DateTime.now().microsecondsSinceEpoch.toString();
+                          Reference referenceRoot =
+                              FirebaseStorage.instance.ref();
+                          Reference referenceDireImages =
+                              referenceRoot.child('images');
+                          Reference referenceImageToUpload =
+                              referenceDireImages.child(fileName);
+                          try {
+                            await referenceImageToUpload
+                                .putFile(File(file.path));
+                            imageUrl =
+                                await referenceImageToUpload.getDownloadURL();
+                          } catch (error) {}
+                        },
+                        icon: Icon(Icons.camera)),
+                    Center(
+                        child: ElevatedButton(
+                            onPressed: () async {
+                              if (imageUrl.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Select image"),
+                                  ),
+                                );return;
+                              }
+                              final String name = nameController.text;
+                              final String number = numberController.text;
+                              if (number != null) {
+                                await _items.add({
+                                  "name": name,
+                                  "number": number,
+                                  "image": imageUrl,
+                                });
+                                nameController.text = "";
+                                numberController.text = "";
+                                Navigator.pop(context);
+                              }
+                            },
+                            child: Text("Create")))
+                  ]),
+            ),
+          );
+        });
+  }
+
+  late Stream<QuerySnapshot> _stream;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _stream = FirebaseFirestore.instance.collection('test').snapshots();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: 60,
-              padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
-              width: double.infinity,
-              child:
-                   ElevatedButton(
-                onPressed: () {},
+      body: StreamBuilder<QuerySnapshot>(
+        stream: _stream,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text("Error"),
+            );
+          }
+          if (snapshot.hasData) {
+            QuerySnapshot querySnapshot = snapshot.data;
+            List<QueryDocumentSnapshot> document = querySnapshot.docs;
+            List<Map> items = document.map((e) => e.data() as Map).toList();
 
-                child: Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                width: 2, //
-                                color: Colors.white,
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "jj",
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Text(
-                            'View basket',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: [
-                          Text(
-                            'Total',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                           "90",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.deepOrange.shade200,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                    BorderRadius.circular(12), // <-- Radius
-                  ),
-                ),
-              )
-
-            ),
-          ),
-        ],
+            return ListView.builder(
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  Map thisItems = items[index];
+                  return ListTile(leading: CircleAvatar(child:Image.network('${thisItems['image']}')),
+                    title: Text("${thisItems['name']}"),
+                  );
+                });
+          }
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
+      appBar: AppBar(
+        title: Text("Image Upload"),
+      ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _create();
+          },
+          child: Icon(Icons.add)),
     );
-
-
   }
 }
