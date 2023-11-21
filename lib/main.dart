@@ -3,7 +3,9 @@ import 'package:event_user_app/Pages/Home.dart';
 
 import 'package:event_user_app/Pages/SignUp.dart';
 import 'package:event_user_app/Service/Auth_Service.dart';
+import 'package:event_user_app/chat/login.dart';
 import 'package:event_user_app/test/Testpage.dart';
+import 'package:event_user_app/test/test2.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -71,9 +73,11 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      home: currentPage,
+      // home: currentPage,
       // home: Test(),
       // home: AdminHomeScreen()
+      home: Home()
+
 
     );
   }

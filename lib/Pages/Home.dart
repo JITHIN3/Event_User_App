@@ -4,6 +4,7 @@ import 'package:event_user_app/Custom/HomeWidget/EventCard.dart';
 import 'package:event_user_app/Custom/HomeWidget/Header.dart';
 import 'package:event_user_app/Custom/HomeWidget/PopularCard.dart';
 import 'package:event_user_app/Pages/SignUp.dart';
+import 'package:event_user_app/Pages/UserBookingPage.dart';
 import 'package:event_user_app/Service/Auth_Service.dart';
 
 import 'package:event_user_app/Utilities/deviceSize.dart';
@@ -141,7 +142,17 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Text(
         "Arun MS",
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      )),
+      )),ListTile(
+        title: Text("Your Bookings"),
+        trailing: IconButton(
+            onPressed: () {
+              Navigator.push(context,MaterialPageRoute(builder: (context)=>UserViewBooking()));
+            },
+            icon: Icon(
+              Icons.book,
+              color: Colors.black,
+            )),
+      ),
       ListTile(
         title: Text("Logout"),
         trailing: IconButton(
@@ -152,7 +163,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Icons.logout,
               color: Colors.red,
             )),
-      )
+      ),
+
     ]);
   }
 

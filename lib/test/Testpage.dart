@@ -76,7 +76,8 @@ class _TestState extends State<Test> {
                                   SnackBar(
                                     content: Text("Select image"),
                                   ),
-                                );return;
+                                );
+                                return;
                               }
                               final String name = nameController.text;
                               final String number = numberController.text;
@@ -109,42 +110,69 @@ class _TestState extends State<Test> {
 
   @override
   Widget build(BuildContext context) {
+    // return Scaffold(
+    //   body: StreamBuilder<QuerySnapshot>(
+    //     stream: _stream,
+    //     builder: (BuildContext context, AsyncSnapshot snapshot) {
+    //       if (snapshot.hasError) {
+    //         return Center(
+    //           child: Text("Error"),
+    //         );
+    //       }
+    //       if (snapshot.hasData) {
+    //         QuerySnapshot querySnapshot = snapshot.data;
+    //         List<QueryDocumentSnapshot> document = querySnapshot.docs;
+    //         List<Map> items = document.map((e) => e.data() as Map).toList();
+    //
+    //         return ListView.builder(
+    //             itemCount: items.length,
+    //             itemBuilder: (context, index) {
+    //               Map thisItems = items[index];
+    //               return ListTile(leading: CircleAvatar(child:Image.network('${thisItems['image']}')),
+    //                 title: Text("${thisItems['name']}"),
+    //               );
+    //             });
+    //       }
+    //       return Center(
+    //         child: CircularProgressIndicator(),
+    //       );
+    //     },
+    //   ),
+    //   appBar: AppBar(
+    //     title: Text("Image Upload"),
+    //   ),
+    //   floatingActionButton: FloatingActionButton(
+    //       onPressed: () {
+    //         _create();
+    //       },
+    //       child: Icon(Icons.add)),
+    // );
     return Scaffold(
-      body: StreamBuilder<QuerySnapshot>(
-        stream: _stream,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text("Error"),
-            );
-          }
-          if (snapshot.hasData) {
-            QuerySnapshot querySnapshot = snapshot.data;
-            List<QueryDocumentSnapshot> document = querySnapshot.docs;
-            List<Map> items = document.map((e) => e.data() as Map).toList();
+        body: Column(
+      children: [
+        Container(
+          height: Helper.getScreenHeight(context),
+          width: Helper.getScreenHeight(context),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [Colors.purpleAccent, Colors.deepPurple.shade900],
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 200),
+            child: Container(
+              width:  Helper.getScreenHeight(context),
+              decoration: BoxDecoration(color: Colors.white
 
-            return ListView.builder(
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  Map thisItems = items[index];
-                  return ListTile(leading: CircleAvatar(child:Image.network('${thisItems['image']}')),
-                    title: Text("${thisItems['name']}"),
-                  );
-                });
-          }
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      ),
-      appBar: AppBar(
-        title: Text("Image Upload"),
-      ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _create();
-          },
-          child: Icon(Icons.add)),
-    );
+                ),
+              ),
+          ),
+          ),
+
+      ],
+    ));
   }
 }
