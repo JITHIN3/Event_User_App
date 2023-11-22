@@ -4,6 +4,7 @@ import 'package:event_user_app/Custom/HomeWidget/EventCard.dart';
 import 'package:event_user_app/Custom/HomeWidget/Header.dart';
 import 'package:event_user_app/Custom/HomeWidget/PopularCard.dart';
 import 'package:event_user_app/Pages/SignUp.dart';
+import 'package:event_user_app/Pages/User/UserProfilePage.dart';
 import 'package:event_user_app/Pages/UserBookingPage.dart';
 import 'package:event_user_app/Service/Auth_Service.dart';
 
@@ -54,7 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 return Text("Connection Error");
               }
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator(),);
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
               }
               var docs = snapshot.data!.docs;
               return Column(
@@ -128,11 +131,24 @@ class _HomeScreenState extends State<HomeScreen> {
       SizedBox(
         height: 10,
       ),
+      Align(
+        alignment: Alignment.bottomRight,
+        child: TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => UserProfile(),
+              ),
+            );
+          },
+          child: Text("Edit", style: TextStyle(color: Colors.redAccent)),
+        ),
+      ),
       Center(
           child: CircleAvatar(
         radius: 50.0,
-        backgroundImage: NetworkImage(
-            'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg'),
+        backgroundImage: AssetImage("lib/assets/img.png"),
         backgroundColor: Colors.transparent,
       )),
       SizedBox(
@@ -140,13 +156,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       Center(
           child: Text(
-        "Arun MS",
+        "JITHU",
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      )),ListTile(
+      )),
+      ListTile(
         title: Text("Your Bookings"),
         trailing: IconButton(
             onPressed: () {
-              Navigator.push(context,MaterialPageRoute(builder: (context)=>UserViewBooking()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => UserViewBooking()));
             },
             icon: Icon(
               Icons.book,
@@ -164,7 +182,6 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.red,
             )),
       ),
-
     ]);
   }
 

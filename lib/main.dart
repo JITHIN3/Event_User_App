@@ -2,7 +2,6 @@ import 'package:event_user_app/AdminPanel/AdminHomeScreen.dart';
 import 'package:event_user_app/Pages/Home.dart';
 
 import 'package:event_user_app/Pages/SignUp.dart';
-import 'package:event_user_app/Pages/User/UserProfilePage.dart';
 import 'package:event_user_app/Service/Auth_Service.dart';
 import 'package:event_user_app/chat/login.dart';
 import 'package:event_user_app/test/Testpage.dart';
@@ -74,10 +73,10 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      // home: currentPage,
+      home: currentPage,
       // home: Test(),
       // home: AdminHomeScreen()
-      home: UserProfile()
+      // home: Home()
 
 
     );

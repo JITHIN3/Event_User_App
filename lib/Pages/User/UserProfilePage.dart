@@ -23,8 +23,11 @@ class UserProfile extends StatelessWidget {
                         begin: Alignment.topRight,
                         end: Alignment.bottomLeft,
                         colors: [
-                          Colors.purpleAccent,
-                          Colors.deepPurple.shade900
+                          Colors.white,
+                          Colors.blue,
+
+                          Colors.blueAccent,
+
                         ],
                       ),
                     ),
@@ -38,7 +41,14 @@ class UserProfile extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                                 fontSize: 20),
                           ),
-                          leading: Icon(Icons.arrow_back_ios,color: Colors.white,),
+                          leading: InkWell(
+                              child: Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.white,
+                          ),
+                          onTap: (){
+                                Navigator.pop(context);
+                          },),
                         )
                       ],
                     )),
@@ -47,7 +57,7 @@ class UserProfile extends StatelessWidget {
                   left: 130,
                   child: CircleAvatar(
                     radius: 60.0,
-                    backgroundImage: AssetImage("lib/assets/weddinglogo.jpg"),
+                    backgroundImage: AssetImage("lib/assets/img.png"),
                     backgroundColor: Colors.transparent,
                   ),
                 ),
@@ -107,7 +117,15 @@ class UserProfile extends StatelessWidget {
                     gradient: LinearGradient(
                       begin: Alignment.topRight,
                       end: Alignment.bottomLeft,
-                      colors: [Colors.purpleAccent, Colors.deepPurple.shade900],
+                      colors: [
+                        Colors.white,
+                        Colors.blue,
+
+                        Colors.blue,
+                        Colors.blue,
+
+
+                    ],
                     ),
                   ),
                   child: Center(
