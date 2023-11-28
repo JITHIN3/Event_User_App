@@ -6,7 +6,9 @@ import 'package:event_user_app/Utilities/deviceSize.dart';
 import 'package:flutter/material.dart';
 
 class EventDetails extends StatefulWidget {
-  const EventDetails({super.key});
+  final String title;
+  final String image;
+  const EventDetails({super.key, required this.title, required this.image});
 
   @override
   State<EventDetails> createState() => _EventDetailsState();
@@ -45,7 +47,7 @@ class _EventDetailsState extends State<EventDetails> {
                         height: 230,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: AssetImage("lib/assets/weddinglogo.jpg"),
+                              image: NetworkImage(widget.image),
                               fit: BoxFit.cover),
                         ),
                       ),
@@ -69,7 +71,7 @@ class _EventDetailsState extends State<EventDetails> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Wedding",
+                          widget.title,
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w500,

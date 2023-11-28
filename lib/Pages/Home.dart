@@ -3,6 +3,7 @@ import 'package:event_user_app/Custom/HomeWidget/BottomNavBar.dart';
 import 'package:event_user_app/Custom/HomeWidget/EventCard.dart';
 import 'package:event_user_app/Custom/HomeWidget/Header.dart';
 import 'package:event_user_app/Custom/HomeWidget/PopularCard.dart';
+import 'package:event_user_app/Pages/EventDetailedPage.dart';
 import 'package:event_user_app/Pages/SignUp.dart';
 import 'package:event_user_app/Pages/User/UserProfilePage.dart';
 import 'package:event_user_app/Pages/UserBookingPage.dart';
@@ -91,9 +92,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                 shrinkWrap: true,
                                 itemCount: docs.length,
                                 itemBuilder: (context, index) {
-                                  return EventCards(
-                                      image: "${docs[index]['image']}",
-                                      title: '${docs[index]['eventname']} ');
+                                  return InkWell(
+                                    onTap: (){
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (builder) => EventDetails(title: docs[index]['eventname'],image: docs[index]['image'],
+                                        )),
+                                      );
+                                    },
+                                    child: EventCards(
+                                        image: "${docs[index]['image']}",
+                                        title: '${docs[index]['eventname']} '),
+                                  );
                                 }),
                           ),
                         ],
