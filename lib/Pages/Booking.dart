@@ -243,28 +243,30 @@ class _BookingPageState extends State<BookingPage> {
                   width: Helper.getScreenWidth(context) * .43,
                   ontap: () {},
                   color: Colors.blue),
-              ElevatedButton(
-                onPressed: () {
+              SizedBox(width:Helper.getScreenWidth(context) * .43,height: 50,
+                child: ElevatedButton(
+                  onPressed: () {
 
 
-                      _validate(context);
+                        _validate(context);
 
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepOrange,
-                  // Background color
-                  // Text color
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepOrange,
+                    // Background color
+                    // Text color
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                    textStyle: TextStyle(fontSize: 18.0),
+                    elevation: 5.0,
                   ),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
-                  textStyle: TextStyle(fontSize: 18.0),
-                  elevation: 5.0,
-                ),
-                child: Text(
-                  "Add",
-                  style: TextStyle(color: Colors.white),
+                  child: Text(
+                    "Book",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ],

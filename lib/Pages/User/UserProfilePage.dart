@@ -1,9 +1,19 @@
 import 'package:event_user_app/Utilities/deviceSize.dart';
 import 'package:flutter/material.dart';
 
-class UserProfile extends StatelessWidget {
+class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
 
+  @override
+  State<UserProfile> createState() => _UserProfileState();
+}
+
+TextEditingController _nameController = TextEditingController();
+TextEditingController _emailController = TextEditingController();
+TextEditingController _phoneController = TextEditingController();
+TextEditingController _placeController = TextEditingController();
+
+class _UserProfileState extends State<UserProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

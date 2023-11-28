@@ -1,17 +1,23 @@
 import 'package:event_user_app/AdminPanel/AdminHomeScreen.dart';
 import 'package:event_user_app/Pages/Home.dart';
+import 'package:event_user_app/Pages/SignIn.dart';
 
 import 'package:event_user_app/Pages/SignUp.dart';
 import 'package:event_user_app/Service/Auth_Service.dart';
 import 'package:event_user_app/chat/login.dart';
 import 'package:event_user_app/test/Testpage.dart';
+import 'package:event_user_app/test/home.dart';
+import 'package:event_user_app/test/payment.dart';
+import 'package:event_user_app/test/register.dart';
 import 'package:event_user_app/test/test2.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+
 void main()async {
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([
@@ -30,7 +36,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Widget currentPage = SignUpPage();
+  Widget currentPage = SignInPage();
   AuthClass authClass = AuthClass();
   // This widget is the root of your application.
   @override
@@ -76,7 +82,8 @@ class _MyAppState extends State<MyApp> {
       home: currentPage,
       // home: Test(),
       // home: AdminHomeScreen()
-      // home: Home()
+      // home: Register()
+      // home: PaymentPage()
 
 
     );

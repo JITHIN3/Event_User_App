@@ -1,14 +1,12 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_user_app/Pages/Home.dart';
 import 'package:event_user_app/Pages/PhoneAuthPage.dart';
 import 'package:event_user_app/Pages/SignIn.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 import '../Service/Auth_Service.dart';
-
-
-
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -17,13 +15,25 @@ class SignUpPage extends StatefulWidget {
   State<SignUpPage> createState() => _SignUpPageState();
 }
 
-
 class _SignUpPageState extends State<SignUpPage> {
   firebase_auth.FirebaseAuth firebaseAuth = firebase_auth.FirebaseAuth.instance;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmpassController = TextEditingController();
   bool circular = false;
+  bool showProgress = false;
+  bool visible = false;
+  final _auth = FirebaseAuth.instance;
+  final _formkey = GlobalKey<FormState>();
   AuthClass authClass = AuthClass();
+  bool _isObscure = true;
+  bool _isObscure2 = true;
+  var options = [
+    'User',
+    'Admin',
+  ];
+  var _currentItemSelected = "User";
+  var rool = "User";
 
   @override
   Widget build(BuildContext context) {
@@ -33,121 +43,273 @@ class _SignUpPageState extends State<SignUpPage> {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           color: Colors.black,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Sign Up",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              buttomItem(
-                  context, "lib/assets/google.png", "Continue With Google", 25,
-                      () async {
-                    await authClass.googleSignIn(context);
-                  }),
-              SizedBox(
-                height: 15,
-              ),
-              buttomItem(
-                  context, "lib/assets/phone.png", "Continue WIth Phone", 30, () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (builder) => PhoneAuthPage(),
-                  ),
-                );
-              }),
-              SizedBox(
-                height: 15,
-              ),
-              Text(
-                "Or",
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              textItem(context, "Email", _emailController, false),
-              SizedBox(
-                height: 15,
-              ),
-              textItem(context, "Password", _passwordController, true),
-              SizedBox(
-                height: 30,
-              ),
-              colorButton(context),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Already Have An Account? ",
-                    style: TextStyle(color: Colors.white, fontSize: 15),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (builder) => SignInPage()),
-                              (route) => false);
-                    },
-                    child: Text(
-                      "Login",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
+          child: Form(
+            key: _formkey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Sign Up",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 30,),
+
+                roledrop(),
+
+
+
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 15, right: 15),
+                  width: double.infinity,
+                  height: 55,
+                  child: TextFormField(
+                    style: TextStyle(color: Colors.white, fontSize: 17),
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      hintText: "email",
+                      hintStyle: TextStyle(color: Colors.white, fontSize: 15),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 1, color: Colors.grey),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 1.5, color: Colors.amber),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                     ),
+                    validator: (value) {
+                      if (value!.length == 0) {
+                        return "Email cannot be empty";
+                      }
+                      if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                          .hasMatch(value)) {
+                        return ("Please enter a valid email");
+                      } else {
+                        return null;
+                      }
+                    },
                   ),
-                ],
-              )
-            ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 15, right: 15),
+                  width: double.infinity,
+                  height: 55,
+                  child: TextFormField(
+                    style: TextStyle(color: Colors.white, fontSize: 17),
+                    obscureText: _isObscure,
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                          icon: Icon(_isObscure
+                              ? Icons.visibility_off
+                              : Icons.visibility),
+                          onPressed: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });
+                          }),
+                      disabledBorder: InputBorder.none,
+                      hintText: "password",
+                      hintStyle: TextStyle(color: Colors.white, fontSize: 15),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 1, color: Colors.grey),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 1.5, color: Colors.amber),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    validator: (value) {
+                      RegExp regex = new RegExp(r'^.{6,}$');
+                      if (value!.isEmpty) {
+                        return "Password cannot be empty";
+                      }
+                      if (!regex.hasMatch(value)) {
+                        return ("please enter valid password min. 6 character");
+                      } else {
+                        return null;
+                      }
+                    },
+                    onChanged: (value) {},
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 15, right: 15),
+                  width: double.infinity,
+                  height: 55,
+                  child: TextFormField(
+                    style: TextStyle(color: Colors.white, fontSize: 17),
+                    obscureText: _isObscure2,
+                    controller: _confirmpassController,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                          icon: Icon(_isObscure2
+                              ? Icons.visibility_off
+                              : Icons.visibility),
+                          onPressed: () {
+                            setState(() {
+                              _isObscure2 = !_isObscure2;
+                            });
+                          }),
+                      disabledBorder: InputBorder.none,
+                      hintText: "Confirm password",
+                      hintStyle: TextStyle(color: Colors.white, fontSize: 15),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 1, color: Colors.grey),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 1.5, color: Colors.amber),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (_confirmpassController.text !=
+                          _passwordController.text) {
+                        return "Password did not match";
+                      } else {
+                        return null;
+                      }
+                    },
+                    onChanged: (value) {},
+                  ),
+                ),
+
+                SizedBox(
+                  height: 30,
+                ),
+
+                colorButton(context),
+                SizedBox(
+                  height: 30,
+                ),
+                Row(mainAxisAlignment: MainAxisAlignment.center,children: [
+                  buttomItem(context, "lib/assets/google.png",
+                      "Continue With Google", 25, () async {
+                        await authClass.googleSignIn(context);
+                      }),
+
+                  buttomItem(
+                      context, "lib/assets/phone.png", "Continue WIth Phone", 30,
+                          () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (builder) => PhoneAuthPage(),
+                          ),
+                        );
+                      }),
+                ],),
+
+
+
+
+
+
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Already Have An Account? ",
+                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) => SignInPage()),
+                            (route) => false);
+                      },
+                      child: Text(
+                        "Login",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
+  Widget roledrop(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          "",
+          style: TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        DropdownButton<String>(underline: SizedBox(),
+          dropdownColor: Colors.black,
+          isDense: true,
+         style: TextStyle(fontWeight: FontWeight.w300),
+          isExpanded: false,
+          iconEnabledColor: Colors.white,
+          focusColor: Colors.white,
+          items: options.map((String dropDownStringItem) {
+
+
+            return DropdownMenuItem<String>(
+              value: dropDownStringItem,
+              child: Text(
+                dropDownStringItem,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            );
+          }).toList(),
+          onChanged: (newValueSelected) {
+            setState(() {
+              _currentItemSelected = newValueSelected!;
+              rool = newValueSelected;
+            });
+          },
+          value: _currentItemSelected,
+        ),
+      ],
+    );
+  }
+
   Widget colorButton(context) {
     return InkWell(
-      onTap: () async {
+      onTap: () {
         setState(() {
-          circular = true;
+          showProgress = true;
         });
-        try {
-          firebase_auth.UserCredential userCredential =
-          await firebaseAuth.createUserWithEmailAndPassword(
-              email: _emailController.text,
-              password: _passwordController.text);
-          print(userCredential.user!.email);
-          setState(() {
-            circular = false;
-          });
-
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (builder) => HomeScreen()),
-                  (route) => false);
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login Success")));
-        } catch (e) {
-          final snackbar = SnackBar(
-            content: Text(
-              e.toString(),
-            ),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackbar);
-          setState(() {
-            circular = false;
-          });
-        }
+        signUp(_emailController.text, _passwordController.text, rool);
       },
       child: Container(
         margin: EdgeInsets.only(left: 15, right: 15),
@@ -167,12 +329,12 @@ class _SignUpPageState extends State<SignUpPage> {
             child: circular
                 ? CircularProgressIndicator()
                 : Text(
-              "Sign Up",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            )),
+                    "Sign Up",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  )),
       ),
     );
   }
@@ -182,34 +344,17 @@ class _SignUpPageState extends State<SignUpPage> {
     return InkWell(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.only(left: 10, right: 10),
-        width: MediaQuery.of(context).size.width * 60,
-        height: 60,
-        child: Card(
-          color: Colors.black,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-              side: BorderSide(width: 1, color: Colors.grey)),
-          elevation: 10,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                imagepath,
-                height: size,
-                width: size,
-              ),
-              SizedBox(
-                width: 15,
-              ),
-              Text(
-                buttonName,
-                style: TextStyle(color: Colors.white, fontSize: 17),
-              ),
-            ],
-          ),
-        ),
-      ),
+          margin: EdgeInsets.only(left: 10, right: 10),
+          width: 100,
+          height: 60,
+          child: CircleAvatar(
+            backgroundColor: Colors.white.withOpacity(.1),
+            child: Image.asset(
+              imagepath,
+              height: size,
+              width: size,
+            ),
+          )),
     );
   }
 
@@ -241,4 +386,22 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
+  void signUp(String email, String password, String rool) async {
+    CircularProgressIndicator();
+    if (_formkey.currentState!.validate()) {
+      await _auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) => {postDetailsToFirestore(email, rool)})
+          .catchError((e) {});
+    }
+  }
+
+  postDetailsToFirestore(String email, String rool) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    var user = _auth.currentUser;
+    CollectionReference ref = FirebaseFirestore.instance.collection('users');
+    ref.doc(user!.uid).set({'email': _emailController.text, 'rool': rool});
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => SignInPage()));
+  }
 }
