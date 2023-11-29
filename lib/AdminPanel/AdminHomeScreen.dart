@@ -1,4 +1,5 @@
 import 'package:event_user_app/AdminPanel/AddEventScreen.dart';
+import 'package:event_user_app/AdminPanel/AddServices.dart';
 import 'package:event_user_app/AdminPanel/ManageEventScreen.dart';
 import 'package:event_user_app/AdminPanel/ViewBookingScreen.dart';
 import 'package:event_user_app/Pages/SignIn.dart';
@@ -15,6 +16,7 @@ class AdminHomeScreen extends StatefulWidget {
 
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
   AuthClass authClass = AuthClass();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,114 +88,191 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                               borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(40)),
                               color: Colors.white),
-                          child: Column(children: [
-                            Row(
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Column(
+                                Row(
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10,
-                                          right: 10,
-                                          top: 10,
-                                          bottom: 5),
-                                      child: InkWell(
-                                        child: Container(
-                                            height: 100,
-                                            width: 100,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Icon(
-                                              Icons.add,
-                                              size: 40,
-                                            )),
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AddEventScreen(),
-                                            ),
-                                          );
-                                        },
-                                      ),
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10,
+                                              right: 10,
+                                              top: 10,
+                                              bottom: 5),
+                                          child: InkWell(
+                                            child: Container(
+                                                height: 100,
+                                                width: 100,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: Icon(
+                                                  Icons.add,
+                                                  size: 40,
+                                                )),
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AddEventScreen(),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                        Text("Add Event"),
+                                      ],
                                     ),
-                                    Text("Add Event"),
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10,
+                                              right: 10,
+                                              top: 10,
+                                              bottom: 5),
+                                          child: InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ViewBooking(),
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                                height: 100,
+                                                width: 100,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: Icon(
+                                                  Icons.book_outlined,
+                                                  size: 40,
+                                                )),
+                                          ),
+                                        ),
+                                        Text("Bookings"),
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10,
+                                              right: 10,
+                                              top: 10,
+                                              bottom: 5),
+                                          child: InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ManageEvents(),
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                                height: 100,
+                                                width: 100,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: Icon(
+                                                  Icons.edit_calendar,
+                                                  size: 40,
+                                                )),
+                                          ),
+                                        ),
+                                        Text("Manage Events"),
+                                      ],
+                                    ),
                                   ],
                                 ),
-                                Column(
+                                Row(
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10,
-                                          right: 10,
-                                          top: 10,
-                                          bottom: 5),
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ViewBooking(),
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                            height: 100,
-                                            width: 100,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Icon(
-                                              Icons.book_outlined,
-                                              size: 40,
-                                            )),
-                                      ),
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10,
+                                              right: 10,
+                                              top: 10,
+                                              bottom: 5),
+                                          child: InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AddServiceScreen()
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                                height: 100,
+                                                width: 100,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(10)),
+                                                child: Icon(
+                                                  Icons.miscellaneous_services,
+                                                  size: 40,
+                                                )),
+                                          ),
+                                        ),
+                                        Text("Add Service"),
+                                      ],
                                     ),
-                                    Text("Bookings"),
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10,
+                                              right: 10,
+                                              top: 10,
+                                              bottom: 5),
+                                          child: InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        AddServiceScreen()
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                                height: 100,
+                                                width: 100,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                    BorderRadius.circular(10)),
+                                                child: Icon(
+                                                  Icons.graphic_eq,
+                                                  size: 40,
+                                                )),
+                                          ),
+                                        ),
+                                        Text("Popular Events"),
+                                      ],
+                                    ),
                                   ],
                                 ),
-                                Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10,
-                                          right: 10,
-                                          top: 10,
-                                          bottom: 5),
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ManageEvents(),
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                            height: 100,
-                                            width: 100,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Icon(
-                                              Icons.edit_calendar,
-                                              size: 40,
-                                            )),
-                                      ),
-                                    ),
-                                    Text("Manage Events"),
-                                  ],
-                                ),
-                              ],
-                            )
-                          ]),
+                              ]),
                         ),
                       ),
                     ],
@@ -203,7 +282,6 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         ),
       ),
     ));
-
   }
 
   _displayDialog(BuildContext context) async {
@@ -227,7 +305,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 child: Text(
                   "Yes",
                   style:
-                  TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                      TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
                 ),
                 onTap: () async {
                   await authClass.signOut(context);
@@ -236,7 +314,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                       MaterialPageRoute(
                         builder: (builder) => SignInPage(),
                       ),
-                          (route) => false);
+                      (route) => false);
                 },
               )
             ],

@@ -4,6 +4,7 @@ import 'package:event_user_app/Custom/DetiledScreen/Datetextfield.dart';
 import 'package:event_user_app/Custom/DetiledScreen/bookingButton.dart';
 import 'package:event_user_app/Custom/DetiledScreen/bookingtextfield.dart';
 import 'package:event_user_app/Pages/Booking.dart';
+import 'package:event_user_app/Pages/SuccessPAge.dart';
 import 'package:event_user_app/Utilities/deviceSize.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +27,8 @@ TextEditingController _date = TextEditingController();
 TextEditingController addressController = TextEditingController();
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-void _validate(context){
-  if(_formKey.currentState!.validate()){
+void _validate(context) {
+  if (_formKey.currentState!.validate()) {
     FirebaseFirestore.instance.collection("bookings").add({
       'Name': nameController.text,
       'Phone': phoneController.text,
@@ -37,20 +38,21 @@ void _validate(context){
       'Date': dateController.text,
       'Address': addressController.text,
     });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("Successfully Booked"),
-        backgroundColor: Colors.teal,
-      ),
-    );
-    Navigator.pop(context);
-    nameController.clear();
-    phoneController.clear();
-    emailController.clear();
-    eventController.clear();
-    districtController.clear();
-    dateController.clear();
-    addressController.clear();
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //   SnackBar(
+    //     content: Text("Successfully Booked"),
+    //     backgroundColor: Colors.teal,
+    //   ),
+    // );
+
+  Navigator.pop(context);
+  nameController.clear();
+  phoneController.clear();
+  emailController.clear();
+  eventController.clear();
+  districtController.clear();
+  dateController.clear();
+  addressController.clear();
 
   }
 }
@@ -91,7 +93,7 @@ class _BookingPageState extends State<BookingPage> {
                     child: TextFormField(
                       controller: nameController,
                       validator: (value) {
-                        if(value!.isEmpty){
+                        if (value!.isEmpty) {
                           return 'Enter Name';
                         }
                         return null;
@@ -100,7 +102,7 @@ class _BookingPageState extends State<BookingPage> {
                       decoration: InputDecoration(
                         labelText: "Name",
                         labelStyle:
-                            TextStyle(color: Colors.black, fontSize: 17),
+                        TextStyle(color: Colors.black, fontSize: 17),
                       ),
                     ),
                   ),
@@ -109,10 +111,10 @@ class _BookingPageState extends State<BookingPage> {
                     child: TextFormField(
                       controller: phoneController,
                       validator: (value) {
-                        if(value!.isEmpty){
+                        if (value!.isEmpty) {
                           return 'Enter Phone';
                         }
-                        if(value.length < 10 || value.length > 10){
+                        if (value.length < 10 || value.length > 10) {
                           return "Enter Valid PhoneNumber";
                         }
                         return null;
@@ -121,7 +123,7 @@ class _BookingPageState extends State<BookingPage> {
                       decoration: InputDecoration(
                         labelText: "Phone",
                         labelStyle:
-                            TextStyle(color: Colors.black, fontSize: 17),
+                        TextStyle(color: Colors.black, fontSize: 17),
                       ),
                     ),
                   ),
@@ -130,7 +132,7 @@ class _BookingPageState extends State<BookingPage> {
                     child: TextFormField(
                       controller: emailController,
                       validator: (value) {
-                        if(value!.isEmpty){
+                        if (value!.isEmpty) {
                           return 'Enter Email';
                         }
 
@@ -140,7 +142,7 @@ class _BookingPageState extends State<BookingPage> {
                       decoration: InputDecoration(
                         labelText: "Email",
                         labelStyle:
-                            TextStyle(color: Colors.black, fontSize: 17),
+                        TextStyle(color: Colors.black, fontSize: 17),
                       ),
                     ),
                   ),
@@ -149,7 +151,7 @@ class _BookingPageState extends State<BookingPage> {
                     child: TextFormField(
                       controller: eventController,
                       validator: (value) {
-                        if(value!.isEmpty){
+                        if (value!.isEmpty) {
                           return 'Enter Event';
                         }
                         return null;
@@ -158,7 +160,7 @@ class _BookingPageState extends State<BookingPage> {
                       decoration: InputDecoration(
                         labelText: "Event",
                         labelStyle:
-                            TextStyle(color: Colors.black, fontSize: 17),
+                        TextStyle(color: Colors.black, fontSize: 17),
                       ),
                     ),
                   ),
@@ -167,7 +169,7 @@ class _BookingPageState extends State<BookingPage> {
                     child: TextFormField(
                       controller: districtController,
                       validator: (value) {
-                        if(value!.isEmpty){
+                        if (value!.isEmpty) {
                           return 'Enter District';
                         }
                         return null;
@@ -176,7 +178,7 @@ class _BookingPageState extends State<BookingPage> {
                       decoration: InputDecoration(
                         labelText: "District",
                         labelStyle:
-                            TextStyle(color: Colors.black, fontSize: 17),
+                        TextStyle(color: Colors.black, fontSize: 17),
                       ),
                     ),
                   ),
@@ -185,7 +187,7 @@ class _BookingPageState extends State<BookingPage> {
                     child: TextFormField(
                       controller: dateController,
                       validator: (value) {
-                        if(value!.isEmpty){
+                        if (value!.isEmpty) {
                           return 'Enter Date';
                         }
                         return null;
@@ -195,23 +197,27 @@ class _BookingPageState extends State<BookingPage> {
                         labelText: "Date",
                         hintText: "dd/mm/yyyy",
                         labelStyle:
-                            TextStyle(color: Colors.black, fontSize: 17),
+                        TextStyle(color: Colors.black, fontSize: 17),
                       ),
                     ),
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 5, right: 5, top: 10),
                     height: 150,
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.circular(5)),
-                    child: TextFormField(validator: (value){
-                      if(value!.isEmpty){
-                        return 'Enter Address';
-                      }
-                      return null;
-                    },
+                    child: TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Enter Address';
+                        }
+                        return null;
+                      },
                       controller: addressController,
                       maxLines: null,
                       style: TextStyle(color: Colors.black, fontSize: 17),
@@ -243,13 +249,11 @@ class _BookingPageState extends State<BookingPage> {
                   width: Helper.getScreenWidth(context) * .43,
                   ontap: () {},
                   color: Colors.blue),
-              SizedBox(width:Helper.getScreenWidth(context) * .43,height: 50,
+              SizedBox(width: Helper.getScreenWidth(context) * .43, height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-
-
-                        _validate(context);
-
+                    _validate(context);
+                    Navigator.push(context,MaterialPageRoute(builder:(builder)=>SuccessScreen()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepOrange,
@@ -259,7 +263,7 @@ class _BookingPageState extends State<BookingPage> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     padding:
-                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                    EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
                     textStyle: TextStyle(fontSize: 18.0),
                     elevation: 5.0,
                   ),

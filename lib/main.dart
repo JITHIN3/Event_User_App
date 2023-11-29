@@ -3,6 +3,7 @@ import 'package:event_user_app/Pages/Home.dart';
 import 'package:event_user_app/Pages/SignIn.dart';
 
 import 'package:event_user_app/Pages/SignUp.dart';
+import 'package:event_user_app/Pages/SuccessPAge.dart';
 import 'package:event_user_app/Service/Auth_Service.dart';
 import 'package:event_user_app/chat/login.dart';
 import 'package:event_user_app/test/Testpage.dart';
@@ -83,7 +84,7 @@ class _MyAppState extends State<MyApp> {
       // home: Test(),
       // home: AdminHomeScreen()
       // home: Register()
-      // home: PaymentPage()
+      // home: SuccessScreen()
 
 
     );

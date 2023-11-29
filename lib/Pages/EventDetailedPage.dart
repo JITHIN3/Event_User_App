@@ -125,7 +125,7 @@ class _EventDetailsState extends State<EventDetails> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Our Wedding Planning Services ",
+                  "Our ${widget.title}  Services ",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
                 ),
               )
@@ -135,15 +135,7 @@ class _EventDetailsState extends State<EventDetails> {
               SizedBox(
                 height: 10,
               ),
-              WeddingServices(),
-              WeddingServices(),
-              WeddingServices(),
-              WeddingServices(),
-              WeddingServices(),
-              WeddingServices(),
-              WeddingServices(),
-              WeddingServices(),
-              WeddingServices(),
+             EventServices()
             ]);
           }),
 
