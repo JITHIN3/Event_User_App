@@ -120,9 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 10,
                       ),
                       PopularCard(),
-                      PopularCard(),
-                      PopularCard(),
-                      PopularCard(),
+
                     ],
                   ),
                 ],
@@ -130,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
             }),
       ),
       drawer: Nav(),
-      bottomNavigationBar: BottomNavBar(),
+
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:event_user_app/AdminPanel/AdminHomeScreen.dart';
 import 'package:event_user_app/Pages/Home.dart';
+import 'package:event_user_app/Pages/ReviewPage.dart';
 import 'package:event_user_app/Pages/SignIn.dart';
 
 import 'package:event_user_app/Pages/SignUp.dart';
@@ -80,11 +81,11 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      home: currentPage,
+      // home: currentPage,
       // home: Test(),
       // home: AdminHomeScreen()
       // home: Register()
-      // home: SuccessScreen()
+      home: ReviewPage()
 
 
     );

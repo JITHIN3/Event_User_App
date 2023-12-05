@@ -1,4 +1,5 @@
 import 'package:event_user_app/AdminPanel/AddEventScreen.dart';
+import 'package:event_user_app/AdminPanel/AddPopularEventScreen.dart';
 import 'package:event_user_app/AdminPanel/AddServices.dart';
 import 'package:event_user_app/AdminPanel/ManageEventScreen.dart';
 import 'package:event_user_app/AdminPanel/ViewBookingScreen.dart';
@@ -250,7 +251,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        AddServiceScreen()
+                                                        PopularEventScreen()
                                                 ),
                                               );
                                             },
